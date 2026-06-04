@@ -126,3 +126,16 @@ def get_current_portfolio_value(portfolio, EX_rate):
     return current_value
 print(f"Total portfolio value: $ {get_current_portfolio_value(portfolio, EX_rate):.2f}")
 
+#Task 6 - Finding the winner
+def get_best_performer(portfolio):
+    best_ticker = None #Best current ticker does not exist, therefore set to 0
+    best_return = float('-inf') # To start the function, smallest possible value so we get a ticker.
+    for ticker, stock in portfolio.items():
+        current_return = get_percentage_return(stock) #Runs through the whole function. Only updates if better return.
+        if current_return > best_return:
+            best_ticker = ticker
+            best_return = current_return
+    return best_ticker, best_return
+print(get_best_performer(portfolio))
+best_ticker, best_return = get_best_performer(portfolio) # Unpacking gives a better cleaner output
+print(f"Best performer : {best_ticker} {best_return:.2f}%")

@@ -1,7 +1,7 @@
 # Building a portoflio tracker for a private investor. It is tracking positions, calculating retruns and getting the full portfolio overview.
 # These task was created with claude,
 from datetime import date
-
+NOK_TO_USD = 9.3166
 
 class stock:
     def __init__(self, ticker, name, shares, currency, buy_price, current_price, buy_year, buy_month):
@@ -102,3 +102,25 @@ def get_return_level(stock):
         return "Good return"
     else :
         return "Great return"
+
+
+#Task 5
+#Adding a ffucntion that will convert a given value to usd if in nok, error if other
+def convert_to_usd(value, currency, NOK_TO_USD):
+#Converts a given cash value into USD based on the provided data
+    if currency == "USD":
+        return value
+    elif currency == "NOK":
+        return value/NOK_TO_USD
+    else:
+        # A safety fallback in case an unsupported currency slips in
+        raise ValueError(f"Unsupported currency: {currency}")
+
+#A function that run through the portfolio & returns total current value
+def get_current_portfolio_value(portfolio, NOK_TO_USD):
+    current_value = 0
+    for ticker, stock in portfolio.items():
+     current_value +=  convert_to_usd(stock['current_price'], stock['currency'], NOK_TO_USD) * stock['shares']
+    return current_value
+print(f"Total portfolio value: $ {get_current_portfolio_value(portfolio, NOK_TO_USD,):.2f}")
+

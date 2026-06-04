@@ -85,3 +85,20 @@ def get_holding_period(stock):
 for ticker, stock in portfolio.items():
     holding_period = get_holding_period(stock)
     print(f"{stock['ticker']} has been held for {holding_period} years")
+
+#Task 4 A function for practise on elif
+def get_percentage_return(stock):
+    return calculate_return(stock) / stock['buy_price'] * 100
+
+def get_return_level(stock):
+    pct = get_percentage_return(stock)
+    if pct <= -10:
+        return "Large Loss"
+    elif pct <= -5:
+        return "Small Loss"
+    elif pct < 5:
+        return "Flat return"
+    elif pct < 15:
+        return "Good return"
+    else :
+        return "Great return"

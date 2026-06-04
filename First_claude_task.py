@@ -1,6 +1,6 @@
 # Building a portoflio tracker for a private investor. It is tracking positions, calculating retruns and getting the full portfolio overview.
 # These task was created with claude,
-from datetime import datetime
+from datetime import date
 
 
 class stock:
@@ -80,4 +80,8 @@ for ticker, stock in portfolio.items():
         print(f"Stock:{stock['ticker']} Loss: {result:.2f} {stock['currency']}")
 
 #Task 3 - look at how many full years the stock have been hold
-def get_holding_period(stock)
+def get_holding_period(stock):
+    return date.today().year - stock['buy_year']
+for ticker, stock in portfolio.items():
+    holding_period = get_holding_period(stock)
+    print(f"{stock['ticker']} has been held for {holding_period} years")

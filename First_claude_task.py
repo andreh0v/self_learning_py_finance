@@ -1,7 +1,7 @@
 # Building a portoflio tracker for a private investor. It is tracking positions, calculating retruns and getting the full portfolio overview.
 # These task was created with claude,
 from datetime import date
-NOK_TO_USD = 9.3166
+EX_rate= 9.3166
 
 class stock:
     def __init__(self, ticker, name, shares, currency, buy_price, current_price, buy_year, buy_month):
@@ -65,13 +65,14 @@ def print_stock_info(stock):
     print(f"Shares in portfolio: {stock['shares']}")
     print(f"Buy price: {stock['buy_price']} {stock['currency']} per share")
     print(f"Current stock price {stock['current_price']}  {stock['currency']} per share")
-    print(f" Bought {months[stock['buy_month']]} / {stock['buy_year']}")
+    print(f"Bought {months[stock['buy_month']]} / {stock['buy_year']}")
+print_stock_info(test_stock)
 
 #Task 2-Retrurning total return in stock currency
 def calculate_return(stock):
     return round((stock['current_price'] - stock['buy_price']) * stock['shares'],2)
 
-#This is a required calculation to do since calculat_return is required furhter on
+#This is a required calculation to do since calculat_return is required further on
 for ticker, stock in portfolio.items():
     result= calculate_return(stock)
     if result > 0:
@@ -82,13 +83,14 @@ for ticker, stock in portfolio.items():
 #Task 3 - look at how many full years the stock have been hold
 def get_holding_period(stock):
     return date.today().year - stock['buy_year']
+
 for ticker, stock in portfolio.items():
     holding_period = get_holding_period(stock)
     print(f"{stock['ticker']} has been held for {holding_period} years")
 
-#Task 4 A function for practise on elif
+#Task 4 A function for practise on elif. corrected for previous function
 def get_percentage_return(stock):
-    return calculate_return(stock) / stock['buy_price'] * 100
+    return calculate_return(stock) /stock['shares'] / stock['buy_price'] * 100
 
 def get_return_level(stock):
     pct = get_percentage_return(stock)
@@ -102,25 +104,25 @@ def get_return_level(stock):
         return "Good return"
     else :
         return "Great return"
-
+print(f"{test_stock['ticker']}: {get_return_level(test_stock)}")
 
 #Task 5
-#Adding a ffucntion that will convert a given value to usd if in nok, error if other
-def convert_to_usd(value, currency, NOK_TO_USD):
-#Converts a given cash value into USD based on the provided data
+#Adding a function that will convert a given value to usd if in nok, error if other
+def convert_to_usd(value, currency, EX_rate):
+    #Converts a given cash value into USD based on the provided data
     if currency == "USD":
         return value
     elif currency == "NOK":
-        return value/NOK_TO_USD
+        return value/EX_rate
     else:
         # A safety fallback in case an unsupported currency slips in
         raise ValueError(f"Unsupported currency: {currency}")
 
 #A function that run through the portfolio & returns total current value
-def get_current_portfolio_value(portfolio, NOK_TO_USD):
+def get_current_portfolio_value(portfolio, EX_rate):
     current_value = 0
     for ticker, stock in portfolio.items():
-     current_value +=  convert_to_usd(stock['current_price'], stock['currency'], NOK_TO_USD) * stock['shares']
+     current_value +=  convert_to_usd(stock['current_price'], stock['currency'], EX_rate) * stock['shares']
     return current_value
-print(f"Total portfolio value: $ {get_current_portfolio_value(portfolio, NOK_TO_USD,):.2f}")
+print(f"Total portfolio value: $ {get_current_portfolio_value(portfolio, EX_rate):.2f}")
 

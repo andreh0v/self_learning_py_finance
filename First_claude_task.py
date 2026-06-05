@@ -3,7 +3,7 @@
 from datetime import date
 EX_rate= 9.3166
 
-class stock:
+class Stock:
     def __init__(self, ticker, name, shares, currency, buy_price, current_price, buy_year, buy_month):
         self.ticker = ticker
         self.name = name
@@ -15,7 +15,10 @@ class stock:
         self.buy_month = buy_month
 
     def print_stock_info(self): pass
-
+    def calculate_return(self): pass
+    def get_holding_period(self): pass
+    def get_percentage_return(self): pass
+    def get_return_level(self): pass
 
 portfolio = {
     "AAPL": {
@@ -139,3 +142,6 @@ def get_best_performer(portfolio):
 print(get_best_performer(portfolio))
 best_ticker, best_return = get_best_performer(portfolio) # Unpacking gives a better cleaner output
 print(f"Best performer : {best_ticker} {best_return:.2f}%")
+
+
+#Task 7

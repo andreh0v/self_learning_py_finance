@@ -1,7 +1,9 @@
-# Building a portoflio tracker for a private investor. It is tracking positions, calculating retruns and getting the full portfolio overview.
-# These task was created with claude,
+# Building a portfolio tracker for a private investor. It tracks positions, calculates returns and gives a full portfolio overview.
+# These tasks were created with Claude.
 from datetime import date
-EX_rate= 9.3166
+
+EX_rate = 9.3166
+
 
 class Stock:
     def __init__(self, ticker, name, shares, currency, buy_price, current_price, buy_year, buy_month):
@@ -19,6 +21,7 @@ class Stock:
     def get_holding_period(self): pass
     def get_percentage_return(self): pass
     def get_return_level(self): pass
+
 
 portfolio = {
     "AAPL": {
@@ -54,6 +57,7 @@ portfolio = {
 }
 
 test_stock = portfolio["AAPL"]
+
 # Month converter to get a written output
 months = {
     1: "January", 2: "February", 3: "March", 4: "April", 5: "May", 6: "June", 7: "July", 8: "August", 9: "September",
@@ -61,7 +65,6 @@ months = {
 
 
 # Task 1 - simply printing stock info
-
 def print_stock_info(stock):
     print(f"Ticker: {stock['ticker']}")
     print(f"Name: {stock['name']}")
@@ -69,31 +72,22 @@ def print_stock_info(stock):
     print(f"Buy price: {stock['buy_price']} {stock['currency']} per share")
     print(f"Current stock price {stock['current_price']}  {stock['currency']} per share")
     print(f"Bought {months[stock['buy_month']]} / {stock['buy_year']}")
-print_stock_info(test_stock)
 
-#Task 2-Retrurning total return in stock currency
+
+# Task 2 - Returning total return in stock currency
 def calculate_return(stock):
-    return round((stock['current_price'] - stock['buy_price']) * stock['shares'],2)
+    return round((stock['current_price'] - stock['buy_price']) * stock['shares'], 2)
 
-#This is a required calculation to do since calculat_return is required further on
-for ticker, stock in portfolio.items():
-    result= calculate_return(stock)
-    if result > 0:
-        print(f"Stock:{stock['ticker']} Gain: {result:.2f} {stock['currency']}")
-    else:
-        print(f"Stock:{stock['ticker']} Loss: {result:.2f} {stock['currency']}")
 
-#Task 3 - look at how many full years the stock have been hold
+# Task 3 - look at how many full years the stock has been held
 def get_holding_period(stock):
     return date.today().year - stock['buy_year']
 
-for ticker, stock in portfolio.items():
-    holding_period = get_holding_period(stock)
-    print(f"{stock['ticker']} has been held for {holding_period} years")
 
-#Task 4 A function for practise on elif. corrected for previous function
+# Task 4 - A function for practise on elif
 def get_percentage_return(stock):
-    return calculate_return(stock) /stock['shares'] / stock['buy_price'] * 100
+    return calculate_return(stock) / stock['shares'] / stock['buy_price'] * 100
+
 
 def get_return_level(stock):
     pct = get_percentage_return(stock)
@@ -105,43 +99,63 @@ def get_return_level(stock):
         return "Flat return"
     elif pct < 15:
         return "Good return"
-    else :
+    else:
         return "Great return"
-print(f"{test_stock['ticker']}: {get_return_level(test_stock)}")
 
-#Task 5
-#Adding a function that will convert a given value to usd if in nok, error if other
+
+# Task 5 - Convert a value to USD if in NOK, error if other
 def convert_to_usd(value, currency, EX_rate):
-    #Converts a given cash value into USD based on the provided data
+    # Converts a given cash value into USD based on the provided data
     if currency == "USD":
         return value
     elif currency == "NOK":
-        return value/EX_rate
+        return value / EX_rate
     else:
         # A safety fallback in case an unsupported currency slips in
         raise ValueError(f"Unsupported currency: {currency}")
 
-#A function that run through the portfolio & returns total current value
+
+# A function that runs through the portfolio & returns total current value
 def get_current_portfolio_value(portfolio, EX_rate):
     current_value = 0
     for ticker, stock in portfolio.items():
-     current_value +=  convert_to_usd(stock['current_price'], stock['currency'], EX_rate) * stock['shares']
+        current_value += convert_to_usd(stock['current_price'], stock['currency'], EX_rate) * stock['shares']
     return current_value
-print(f"Total portfolio value: $ {get_current_portfolio_value(portfolio, EX_rate):.2f}")
 
-#Task 6 - Finding the winner
+
+# Task 6 - Finding the winner
 def get_best_performer(portfolio):
-    best_ticker = None #Best current ticker does not exist, therefore set to 0
-    best_return = float('-inf') # To start the function, smallest possible value so we get a ticker.
+    best_ticker = None  # Best current ticker does not exist yet
+    best_return = float('-inf')  # Smallest possible value so the first stock always wins initially
     for ticker, stock in portfolio.items():
-        current_return = get_percentage_return(stock) #Runs through the whole function. Only updates if better return.
+        current_return = get_percentage_return(stock)  # Only updates if a better return is found
         if current_return > best_return:
             best_ticker = ticker
             best_return = current_return
     return best_ticker, best_return
-print(get_best_performer(portfolio))
-best_ticker, best_return = get_best_performer(portfolio) # Unpacking gives a better cleaner output
-print(f"Best performer : {best_ticker} {best_return:.2f}%")
 
 
-#Task 7
+# Task 7 - (Stock class method stubs are defined at the top of the file)
+
+
+# This block only runs when THIS file is run directly.
+# When another file imports from this one, everything below is skipped.
+if __name__ == "__main__":
+    print_stock_info(test_stock)
+
+    for ticker, stock in portfolio.items():
+        result = calculate_return(stock)
+        if result > 0:
+            print(f"Stock:{stock['ticker']} Gain: {result:.2f} {stock['currency']}")
+        else:
+            print(f"Stock:{stock['ticker']} Loss: {result:.2f} {stock['currency']}")
+
+    for ticker, stock in portfolio.items():
+        holding_period = get_holding_period(stock)
+        print(f"{stock['ticker']} has been held for {holding_period} years")
+
+    print(f"{test_stock['ticker']}: {get_return_level(test_stock)}")
+    print(f"Total portfolio value: $ {get_current_portfolio_value(portfolio, EX_rate):.2f}")
+
+    best_ticker, best_return = get_best_performer(portfolio)
+    print(f"Best performer : {best_ticker} {best_return:.2f}%")

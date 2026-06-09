@@ -17,7 +17,10 @@ def value_in_usd(row, price_column):
 # This block only runs when THIS file is run directly, not when imported.
 if __name__ == "__main__":
     # Task 1 - Load the CSV into a DataFrame
-    df = pd.read_csv('portfolio.csv')
+    try:
+        df = pd.read_csv('portfolio.csv')
+    except FileNotFoundError:
+        print("Could not find portfolio.csv - check the filename & folder path")
     print(df)
 
     # Task 2 - Add a calculated column for total return (rounded once, so it stays rounded everywhere)
@@ -49,3 +52,4 @@ if __name__ == "__main__":
     print(f"Total portfolio value : {df['current_price_usd'].sum():.2f} USD")
     print(f"Total portfolio return: {df['total_return_usd'].sum():.2f} USD")
     print(f"Total portfolio % return: {total_pct:.2f} %")
+    #Task 7 defensive loading

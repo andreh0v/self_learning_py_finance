@@ -1,0 +1,7 @@
+ticker,name,shares,currency,buy_price,current_price,buy_year,buy_month,total_return,pct_return,current_price_usd,buy_price_usd,total_return_usd
+MSFT,Microsoft Corp.,5,USD,280.0,415.0,2021,11,675.0,48.21,2075.0,1400.0,675.0
+AAPL,Apple Inc.,10,USD,150.0,192.5,2023,1,425.0,28.33,1925.0,1500.0,425.0
+DNB,DNB Bank ASA,40,NOK,210.0,238.9,2023,9,1156.0,13.76,1025.696069381534,901.6164695275102,124.08
+EQNR,Equinor ASA,25,NOK,310.0,278.4,2022,6,-790.0,-10.19,747.0536461799369,831.8485284331194,-84.79
+TSLA,Tesla Inc.,12,USD,250.0,177.0,2022,2,-876.0,-29.2,2124.0,3000.0,-876.0
+NVDA,NVIDIA Corp.,8,USD,420.0,118.5,2024,3,-2412.0,-71.79,948.0,3360.0,-2412.0

@@ -1,0 +1,177 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "320c7b93-1b94-41ab-bd5e-4cb1b752aad8",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "import sqlite3\n",
+    "import matplotlib.pyplot as plt\n",
+    "from First_claude_task import convert_to_usd, EX_rate\n",
+    "conn =sqlite3.connect('MINI-CAPSTONE.db')\n",
+    "try:\n",
+    "    df =pd.read_csv('historical_prices.csv')\n",
+    "    df.to_sql('prices',conn, if_exists='replace', index=False)\n",
+    "except FileNotFoundError:\n",
+    "     print(\"Could not find historical_prices.csv - check the filename & folder path\")\n",
+    "    "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "09262d58-2540-4907-b250-ab04ee1f5233",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "  ticker  Months  AVG_plose_price  Low_close_price  High_close_price\n",
+      "0   AAPL      12       186.795000           165.00            201.74\n",
+      "1   EQNR      12       278.964167           252.27            305.18\n",
+      "2   MSFT      12       302.544167           282.23            318.79\n",
+      "3   NVDA      12       444.317500           300.60            579.77\n"
+     ]
+    }
+   ],
+   "source": [
+    "#Deliverable 1\n",
+    "query = '''\n",
+    "    SELECT Ticker,\n",
+    "            COUNT(*) AS Months,\n",
+    "            AVG(close) AS AVG_plose_price,\n",
+    "            MIN(close) AS Low_close_price,\n",
+    "            MAX(close) AS High_close_price\n",
+    "    FROM Prices\n",
+    "    GROUP by Ticker\n",
+    "'''\n",
+    "summary = pd.read_sql(query,conn)\n",
+    "print(summary)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "id": "886c3e38-806d-499b-bc47-d0780d1c6818",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "        Monthly Volatility (%)\n",
+      "ticker                        \n",
+      "AAPL                      3.74\n",
+      "EQNR                      4.50\n",
+      "MSFT                      4.15\n",
+      "NVDA                     16.96\n"
+     ]
+    }
+   ],
+   "source": [
+    "#Deliverable 2 monthly volatility\n",
+    "prices = df.pivot(index='date', columns='ticker', values='close')\n",
+    "returns = prices.pct_change()\n",
+    "volatility = returns.std()\n",
+    "vol_table = (returns.std() * 100).round(2).to_frame(name=\"Monthly Volatility (%)\")\n",
+    "print(vol_table)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 32,
+   "id": "438555db-711d-4a85-bd31-067db4a750f0",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "ticker\n",
+      "AAPL    1.84\n",
+      "EQNR   -1.08\n",
+      "MSFT    0.16\n",
+      "NVDA   -0.72\n",
+      "dtype: float64\n",
+      " Best performer AAPL\n",
+      " Worst performer EQNR\n"
+     ]
+    }
+   ],
+   "source": [
+    "#Deliverable 3 avrage monthly return\n",
+    "AVG_return = returns.mean()\n",
+    "Best_return = AVG_return.idxmax()\n",
+    "Worst_return = AVG_return.idxmin()\n",
+    "print((AVG_return * 100).round(2))    # ✅ round the values, then print\n",
+    "print(f\" Best performer {Best_return}\")\n",
+    "print(f\" Worst performer {Worst_return}\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 38,
+   "id": "04305883-f67c-46b6-ac68-cc03be69da8e",
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "NameError",
+     "evalue": "name 'value_in_usd' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[31m---------------------------------------------------------------------------\u001b[39m",
+      "\u001b[31mNameError\u001b[39m                                 Traceback (most recent call last)",
+      "\u001b[36mCell\u001b[39m\u001b[36m \u001b[39m\u001b[32mIn[38]\u001b[39m\u001b[32m, line 2\u001b[39m\n\u001b[32m      1\u001b[39m \u001b[38;5;66;03m#Deliverable 4 total portfolio in USD\u001b[39;00m\n\u001b[32m----> \u001b[39m\u001b[32m2\u001b[39m df[\u001b[33m'current_price_usd'\u001b[39m] = df.apply(value_in_usd, axis=\u001b[32m1\u001b[39m, price_column=\u001b[33m'close'\u001b[39m)\n\u001b[32m      3\u001b[39m print(f\"Total value today {current_price_usd}\")\n",
+      "\u001b[31mNameError\u001b[39m: name 'value_in_usd' is not defined"
+     ]
+    }
+   ],
+   "source": [
+    "#Deliverable 4 total portfolio in USD\n",
+    "latest_prices = prices.iloc[-1]\n",
+    "print(latest_pricea"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ae8c19b7-5411-4837-9b91-5d5e1a1b9569",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "614d653f-60eb-4bbf-bd01-e263caf13537",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.12.0"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

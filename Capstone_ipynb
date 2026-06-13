@@ -148,7 +148,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 10,
+   "execution_count": 6,
    "id": "ae8c19b7-5411-4837-9b91-5d5e1a1b9569",
    "metadata": {},
    "outputs": [
@@ -188,11 +188,23 @@
   },
   {
    "cell_type": "code",
-   "execution_count": null,
+   "execution_count": 8,
    "id": "a43fd66c-c140-424c-a17c-098650ecad7e",
    "metadata": {},
-   "outputs": [],
-   "source": []
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Database connection successfully closed.\n"
+     ]
+    }
+   ],
+   "source": [
+    "#Safely close the activae database connection\n",
+    "conn.close()\n",
+    "print(\"Database connection successfully closed.\")"
+   ]
   }
  ],
  "metadata": {

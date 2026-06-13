@@ -1,7 +1,7 @@
 ## Portfolio analysis using pandas. Reads data from portfolio.csv.
 # Reuses convert_to_usd and EX_rate from the first task file.
 import pandas as pd
-from First_claude_task import convert_to_usd, EX_rate
+from Claude_tasks.First_claude_task import convert_to_usd, EX_rate
 
 # Show all columns instead of collapsing them with "..."
 pd.set_option('display.max_columns', None)

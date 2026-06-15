@@ -46,10 +46,47 @@ regions = [
 copper = {"maintenance_km": 300, "cost_per_incident": 500}
 fiber = {"maintenance_km": 100, "cost_per_incident": 100}
 
-terrain_multiplier {"low": 1.0, "medium": 1.2, "high": 1.5}
+terrain_multiplier = {"low": 1.0, "medium": 1.2, "high": 1.5}
 
+#3 Operating cost
+def operating_cost(length, incidents, terrain, network):
+    multiplier = terrain_multiplier[terrain]
+    cost = (length * network["maintenance_km"] * multiplier) + (incidents * network["cost_per_incident"])
+    return cost
 
+#Fiber development constrains
+def feasible(terrain, permit_approved):
+    if terrain == "high" and permit_approved == False:
+        return False
+    else:
+        return True
+def process_region(region):
+        copper_cost = operating_cost(region.length, region.incidents_year, region.terrain, copper)
+        fiber_cost = operating_cost(region.length, region.incidents_year, region.terrain, fiber)
+        feasible_result = feasible(region.terrain, region.permit_approved)
+        if feasible_result ==False:
+            fiber_cost = "N/A"
+            savings = "N/A"
+            recommendation ="Fiber not Feasible"
+        else:
+            savings = copper_cost-fiber_cost
+            if savings >= 0:
+                recommendation = "Switch to fiber"
+            else:
+                recommendation = "Stay on copper"
+        print(f"""Region:\t{region.name}
+          Terrain:\t{region.terrain}
+          Permit Approved:\t{region.permit_approved}
+          Fiber Feasible?:\t{feasible_result}
+          Copper Cost:\tNOK {copper_cost}
+          Fiber Cost:\tNOK {fiber_cost}
+          Savings:\tNOK {savings}
+          Recommendation:\t{recommendation}
+        """)
+#Problem 3
 if __name__ == "__main__":
     mail_even_func()
     reverse_func()
     print_marked()
+    for region in regions:
+        process_region(region)

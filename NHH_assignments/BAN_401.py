@@ -28,53 +28,25 @@ def print_marked():
                 break
 
 
-#Problem 2 a model on switching from cobber to fiber
+#Problem 2 a model on switching from cobber to fiberclass Region_total:
 class Region:
-    def __init__(self,Region, Length, Incidents_year, Terrain, Permit_Approved):
-        self.Region = Region
-        self.Length = Length
-        self.Incidents_year = Incidents_year
-        self.Terrain = Terrain
-        self.Permit_Approved = Permit_Approved
-Regional_data = {
-    "Region Alpha":{
-        "Region": "Region_Alpha",
-        "Length" : 120,
-        "Incidents_year" : 30,
-        "Terrain" : "low",
-        "Permit_Approved" : True
-    },
-    "Region Beta":{
-        "Region": "Region_Beta",
-        "Length" : 200,
-        "Incidents_year" : 45,
-        "Terrain" : "medium",
-        "Permit_Approved" : False
-    },
-    "Region Gamma":{
-        "Region": "Region_Gamma",
-        "Length" : 150,
-        "Incidents_year" : 60,
-        "Terrain" : "high",
-        "Permit_Approved" : True
-    },
-    "Region Delta":{
-        "Region": "Region_Delta",
-        "Length" : 90,
-        "Incidents_year" : 60,
-        "Terrain" : "high",
-        "Permit_Approved" : True
-    },
-    "Region Epsilon":{
-        "Region": "Region_Epsilon",
-        "Length" : 300,
-        "Incidents_year" : 90,
-        "Terrain" : "high",
-        "Permit_Approved" : False
-    },
-}
+        def __init__(self, name, length, incidents_year, terrain, permit_approved):
+            self.name = name
+            self.length = length
+            self.incidents_year = incidents_year
+            self.terrain = terrain
+            self.permit_approved = permit_approved
+regions = [
+    Region("Alpha", 120, 30, "low", True),
+    Region("Beta", 200, 45, "medium", False),
+    Region("Gamma", 150, 60, "high", True),
+    Region("Delta", 90, 20, "medium", True),
+    Region("Epsilon", 300, 90, "high", False)
+]
 copper = {"maintenance_km": 300, "cost_per_incident": 500}
 fiber = {"maintenance_km": 100, "cost_per_incident": 100}
+
+terrain_multiplier {"low": 1.0, "medium": 1.2, "high": 1.5}
 
 
 if __name__ == "__main__":

@@ -84,9 +84,60 @@ def process_region(region):
           Recommendation:\t{recommendation}
         """)
 #Problem 3
+sales = {
+    "Norway": {
+        "Bergen": {
+            "Sandviken": 8600000,
+            "Downtown": 12000000
+        },
+        "Oslo": {
+            "Karl Johan": 23000000,
+            "Downtown": 18000000
+        }
+    },
+    "Sweden": {
+        "Stockholm": 21000000,
+        "Gothenburg": 19000000
+    },
+    "Denmark": 24000000
+}
+
+exchange_rates = {
+    "NOK": 1.00,
+    "SEK": 1.07,
+    "DKK": 1.56
+}
+
+country_currency = {
+    "Norway": "NOK",
+    "Sweden": "SEK",
+    "Denmark": "DKK"
+}
+subtotals = {"Norway": 0, "Sweden": 0, "Denmark": 0}
+def converting_func(data, current_country):
+    for key, value in data.items():
+        if isinstance(value,dict):
+            if key in country_currency:
+                new_country = key
+            else:
+                new_country = current_country
+            converting_func(value, new_country)
+        else:
+            if key in country_currency:
+                current_country = key
+            currency = country_currency[current_country]
+            rate = exchange_rates[currency]
+            converted = value * rate
+            subtotals[current_country] += converted
+
 if __name__ == "__main__":
     mail_even_func()
     reverse_func()
     print_marked()
     for region in regions:
         process_region(region)
+    converting_func(sales,None)
+    print(f"Norway: Nok {subtotals['Norway']:.2f}")
+    print(f"Sweden: Nok {subtotals['Sweden']:.2f}")
+    print(f"Denmark: Nok {subtotals['Denmark']:.2f}")
+    print(f"Total: Nok {sum(subtotals.values()):.2f}")

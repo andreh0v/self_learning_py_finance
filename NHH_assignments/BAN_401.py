@@ -116,20 +116,13 @@ country_currency = {
 subtotals = {"Norway": 0, "Sweden": 0, "Denmark": 0}
 def converting_func(data, current_country):
     for key, value in data.items():
-        if isinstance(value,dict):
-            if key in country_currency:
-                new_country = key
-            else:
-                new_country = current_country
+        new_country = key if key in country_currency else current_country
+        if isinstance(value, dict):
             converting_func(value, new_country)
         else:
-            if key in country_currency:
-                current_country = key
-            currency = country_currency[current_country]
+            currency = country_currency[new_country]
             rate = exchange_rates[currency]
-            converted = value * rate
-            subtotals[current_country] += converted
-
+            subtotals[new_country] += value * rate
 if __name__ == "__main__":
     mail_even_func()
     reverse_func()
@@ -137,7 +130,7 @@ if __name__ == "__main__":
     for region in regions:
         process_region(region)
     converting_func(sales,None)
-    print(f"Norway: Nok {subtotals['Norway']:.2f}")
-    print(f"Sweden: Nok {subtotals['Sweden']:.2f}")
-    print(f"Denmark: Nok {subtotals['Denmark']:.2f}")
-    print(f"Total: Nok {sum(subtotals.values()):.2f}")
+    print(f"Norway: Nok {subtotals['Norway']:,.2f}")
+    print(f"Sweden: Nok {subtotals['Sweden']:,.2f}")
+    print(f"Denmark: Nok {subtotals['Denmark']:,.2f}")
+    print(f"Total: Nok {sum(subtotals.values()):,.2f}")

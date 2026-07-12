@@ -134,3 +134,4 @@ if __name__ == "__main__":
     print(f"Sweden: Nok {subtotals['Sweden']:,.2f}")
     print(f"Denmark: Nok {subtotals['Denmark']:,.2f}")
     print(f"Total: Nok {sum(subtotals.values()):,.2f}")
+#Problem 4 Getting highest return

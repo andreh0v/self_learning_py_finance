@@ -1,6 +1,6 @@
 #A dict looking r-option called named list
 # BAN401 Problem 4 - Marketing Campaign Optimization
-
+# This problem is solved with bruth force optimization. This is possible with smaller number of combinations. But larger sets yields problems.
 # Products
 product <- c("wireless mouse", "smart speaker", "LED monitor", "USB hub",
              "keyboard", "power bank", "webcam", "gaming chair", "laptop stand")
@@ -27,9 +27,9 @@ for(a in 0:1){
                   selected <- c(a, b, c, d, e, f, g, h, i)
                   total_cost <- sum(promotion_cost * selected)
                   total_return <- sum(expected_return * selected)
-                  if(total_cost <= budget){
-                    if(total_return > best_return){
-                      best_return <- total_return
+                  if(total_cost <= budget){ #If oustide budget, continue looking
+                    if(total_return > best_return){ #If less than best return, continue else update & continue
+                      best_return <- total_return #The lines replaces best with new, if fits restrictions & is better
                       best_cost <- total_cost
                       best_combo <- selected
                     }
@@ -43,11 +43,35 @@ for(a in 0:1){
     }
   }
 }
-for(j in 1:9){
+cat("The optimal combination of products:\n")
+for(j in 1:9){ #Goes through all the products in line & prints only the products that are appart of best
   if(best_combo[j] == 1){
     cat("-", product[j], "\n")
   }
 }
-cat("The optimal combination of products:\n")
+#Cat = py print()
 cat("Total promotion cost:", best_cost, "NOK\n")
 cat("Total expected return:", best_return, "NOK\n")
+# R diffrencecs vs py:
+#<- instead of = for assignment
+#c() instead of [] for vectors
+#for(x in 0:1) instead of for x in range(0,2)
+#cat() instead of print()/f-strings
+# if(condition){ instead of if condition:
+##Problem 5 - comparing each day agains previous 3
+set.seed(123)
+sales <- round(runif(30, min = 80, max = 120))
+labels <- c()
+
+for(i in 4:30)
+  avg <- mean(sales[(i-3):(i-1)])
+  if (sales[i] >= avg * 1.2){
+  label <- "high"
+  }else if (sales[i] <= avg *0.8) {
+     label <-"low"
+  }else{
+       label <- "normal"
+  }
+  labels <- c(labels,label) #is after the code to store the data that has been decided.
+
+

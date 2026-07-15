@@ -63,7 +63,7 @@ set.seed(123)
 sales <- round(runif(30, min = 80, max = 120))
 labels <- c()
 
-for(i in 4:30)
+for(i in 4:30){
   avg <- mean(sales[(i-3):(i-1)])
   if (sales[i] >= avg * 1.2){
   label <- "high"
@@ -72,6 +72,13 @@ for(i in 4:30)
   }else{
        label <- "normal"
   }
-  labels <- c(labels,label) #is after the code to store the data that has been decided.
+  labels <- c(labels,label)} #is after the code to store the data that has been decided.
+cat("Labels for day 4 to day 10:\n")
+for (j in 1:7){#A loop is necessary to gett a day outout
+  cat("Day", j+3, ":", labels[j], "\n")
+}
+cat("")
+cat("\n Total counts:\n")
+print(table(labels))
 
 

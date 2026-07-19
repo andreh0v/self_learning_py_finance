@@ -1,6 +1,7 @@
-This is a explanation of BAN401 task 6
-
-
+This is a explanation of BAN401 task 6.
+There are other files that focueses on the BAN401 term paper given in the class.
+The class has been rebranded from BAN401 too STR467.
+It is the same class, but now given under the Strategi & Ledelse profile for the NHH MBA.
 
 # BAN401 Problem 6 - Transport & Logistics Database
 

@@ -52,7 +52,8 @@ def problem2_trip():
     else:
         print("You did not walk Ulriken! You should try it!")
 
-problem2_trip()
 
-#if __name__ == "__main__":
-    #problem1_trip()
+
+if __name__ == "__main__":
+    problem1_trip()
+    problem2_trip()

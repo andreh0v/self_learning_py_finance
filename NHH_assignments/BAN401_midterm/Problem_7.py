@@ -5,7 +5,7 @@ Student_price = Base_price * 0.9
 group = 0
 
 
-def discount_factor():
+def problem_7():
     while True:
         students = int(input("Enter total students: "))
         non_students = int(input("Enter total non-students: "))
@@ -21,11 +21,11 @@ def discount_factor():
             discount_group = 0.01
         else:
             discount_group = 0.0
-        choice_B = group * Base_price * (1 - discount_group)
-        savings_choice_A = group * Base_price - choice_A
-        savings_choice_B = group * Base_price - choice_B
-        print(f"choice A costs:{choice_A} ")
-        print(f"choice B costs:{choice_B}")
+        choice_B = round(group * Base_price * (1 - discount_group),2)
+        savings_choice_A = round(group * Base_price - choice_A,2)
+        savings_choice_B = round(group * Base_price - choice_B,2)
+        print(f"Choice A costs:{choice_A} ")
+        print(f"Choice B costs:{choice_B}")
         if choice_A > choice_B:  # The best choice comparer
             print(f"Choice B is the better choice, with a price of {choice_B} & savings of {savings_choice_B}")
         elif choice_B == choice_A:
@@ -40,3 +40,4 @@ def discount_factor():
         else:
             print("Please enter y or n")
             continue
+problem_7()

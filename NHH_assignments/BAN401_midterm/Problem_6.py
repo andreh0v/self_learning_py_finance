@@ -17,7 +17,7 @@ def problem_6_sol():
         else:
             parts = answer.split()
             if len(parts) != 2:
-                print("try again with a currency")
+                print("try again with a currency or an amount")
                 continue
             else:
                 amount_string, currency = answer.split()

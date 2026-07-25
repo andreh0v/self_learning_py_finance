@@ -7,7 +7,7 @@ def gpa_func():
     valid_grades = ["A", "B", "C", "D", "E", "F"]
     grades = []
 
-    print("Eneter your grades (A-F). Typde 'done' when finished.")
+    print("Enter your grades (A-F). Typde 'done' when finished.")
 
     while True:
         answer = input("Enter grade: ").strip()

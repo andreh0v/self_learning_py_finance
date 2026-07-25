@@ -16,13 +16,13 @@ def problem_6_sol():
             break
         else:
             parts = answer.split()
-            if len(parts) != 2:
+            if len(parts) != 2:#Fail-switch for both currency & amount
                 print("try again with a currency or an amount")
                 continue
             else:
-                amount_string, currency = answer.split()
+                amount_string, currency = answer.split()#splitting into the currency & amount, in line with the dict
                 if currency.upper() in valid_EX:
-                    posted_EX[currency.upper()] = posted_EX.get(currency.upper(), 0) + float(amount_string)
+                    posted_EX[currency.upper()] = posted_EX.get(currency.upper(), 0) + float(amount_string)#adding it to the final dict, with text returend as numbs
                 else:
                     print("Please enter either 'EUR', 'USD' or 'SEK'")
                     continue
@@ -31,9 +31,9 @@ def problem_6_sol():
         print("You have not entered amount & ex")
     else:
         total_nok = 0
-        for cur, subtotal in posted_EX.items():
+        for cur, subtotal in posted_EX.items(): #going through each currency with its subtotal, returning it
             print(cur, ":", subtotal)
-            total_nok += ex_rate_thing(cur) * subtotal
+            total_nok += ex_rate_thing(cur) * subtotal #converting it to nok
         print(f"{total_nok} NOK")
 
 
